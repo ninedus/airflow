@@ -6,7 +6,7 @@ from airflow.models.dag import DAG
 with DAG(
     dag_id="dags_bash_operator",
     schedule="0 0 * * *",
-    start_date=pendulum.datetime(2024, 2, 3, tz="Asia/Seoul"),
+    start_date=pendulum.datetime(2024, 2, 2, tz="Asia/Seoul"),
     catchup=False,
     dagrun_timeout=datetime.timedelta(minutes=60),
     tags=["example", "example2"],
