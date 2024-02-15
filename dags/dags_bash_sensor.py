@@ -43,7 +43,7 @@ with DAG(
     bash_task = BashOperator(
         task_id='bash_task',
         env={'FILE': '/opt/airflow/files/tvCorona19VaccinestatNew/{{data_interval_end.in_timezone("Asia/Seoul") | ds_nodash }}/tvCorona19VaccinestatNew.csv'},
-        bash_command='echo "°Ç¼ö: `cat $FILE | wc -l`"',
+        bash_command='echo "Count: `cat $FILE | wc -l`"',
     )
 
-    [sensor_task_by_poke,sensor_task_by_reschedule] >> bash_task
+    [sensor_task_by_poke, sensor_task_by_reschedule] >> bash_task
