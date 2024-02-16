@@ -12,7 +12,7 @@ with DAG(
 
     sensor_task_by_poke = BashSensor(
         task_id='sensor_task_by_poke',
-        env={'FILE':'/opt/airflow/files/tvCorona19VaccinestatNew/{{data_interval_end.in_timezone("Asia/Seoul") | ds_nodash }}/tvCorona19VaccinestatNew.csv'},
+        env={'FILE': '/opt/airflow/files/tvCorona19VaccinestatNew/{{data_interval_end.in_timezone("Asia/Seoul") | ds_nodash }}/tvCorona19VaccinestatNew.csv'},
         bash_command=f'''echo $FILE && 
                         if [ -f $FILE ]; then 
                               exit 0
@@ -27,7 +27,7 @@ with DAG(
 
     sensor_task_by_reschedule = BashSensor(
         task_id='sensor_task_by_reschedule',
-        env={'FILE':'/opt/airflow/files/tvCorona19VaccinestatNew/{{data_interval_end.in_timezone("Asia/Seoul") | ds_nodash }}/tvCorona19VaccinestatNew.csv'},
+        env={'FILE': '/opt/airflow/files/tvCorona19VaccinestatNew/{{data_interval_end.in_timezone("Asia/Seoul") | ds_nodash }}/tvCorona19VaccinestatNew.csv'},
         bash_command=f'''echo $FILE && 
                         if [ -f $FILE ]; then 
                               exit 0
@@ -35,16 +35,14 @@ with DAG(
                               exit 1
                         fi''',
         poke_interval=60*3,    # 3Ка
-        timeout=60*9,          #9Ка
+        timeout=60*9,          # 9Ка
         mode='reschedule',
         soft_fail=True
     )
 
     bash_task = BashOperator(
         task_id='bash_task',
-        env={'FILE': '/opt/airflow/files/tvCorona19VaccinestatNew/{{data_interval_end.in_timezone("Asia/Seoul") | ds_nodash }}/tvCorona19VaccinestatNew.csv'},
-        # bash_command='echo "Count: `cat $FILE | wc -l`"',
-        bash_command='echo "111111111"',
+        bash_command="echo $HOSTNAME",
     )
 
     [sensor_task_by_poke, sensor_task_by_reschedule] >> bash_task
