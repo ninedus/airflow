@@ -19,8 +19,8 @@ with DAG(
                         else 
                               exit 1
                         fi''',
-        poke_interval=30,      #30초
-        timeout=60*2,          #2분
+        poke_interval=30,      # 30 secs
+        timeout=60*2,          # 2 mins
         mode='poke',
         soft_fail=False
     )
@@ -34,15 +34,16 @@ with DAG(
                         else 
                               exit 1
                         fi''',
-        poke_interval=60*3,    # 3분
-        timeout=60*9,          # 9분
+        poke_interval=60*3,    # 3 mins
+        timeout=60*9,          # 9 mins
         mode='reschedule',
         soft_fail=True
     )
 
     bash_task = BashOperator(
         task_id='bash_task',
-        bash_command="echo $HOSTNAME",
+        env={'FILE': '/opt/airflow/files/tvCorona19VaccinestatNew/{{data_interval_end.in_timezone("Asia/Seoul") | ds_nodash }}/tvCorona19VaccinestatNew.csv'},
+        bash_command='echo "Count: `cat $FILE | wc -l`"',
     )
 
     [sensor_task_by_poke, sensor_task_by_reschedule] >> bash_task
