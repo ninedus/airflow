@@ -1,5 +1,7 @@
 venv
+.venv
 .env
 act.bat
 __pycache__/
 logs
+files
